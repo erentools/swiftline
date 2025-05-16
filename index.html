@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro SwiftLine</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background: url('logo-fondo.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+        .container {
+            background-color: rgba(0,0,0,0.7);
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 10px;
+        }
+        input, select, button {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Registro SwiftLine</h2>
+        <form id="registroForm">
+            <input type="text" placeholder="Nombre completo" required><br>
+            <input type="text" placeholder="Identificación" required><br>
+            <input type="text" placeholder="Dirección de residencia" required><br>
+            <input type="text" placeholder="Ciudad de residencia" required><br>
+            <input type="email" placeholder="Correo electrónico" required><br>
+            <input type="password" placeholder="Contraseña" id="pass" required><br>
+            <input type="password" placeholder="Confirmar contraseña" id="confirmPass" required><br>
+            <label>Cargar foto del DNI:</label>
+            <input type="file" accept="image/*"><br>
+            <label>Método de pago:</label>
+            <select id="metodoPago">
+                <option value="">Seleccione</option>
+                <option value="tarjeta">Tarjeta débito o crédito</option>
+                <option value="pse">PSE</option>
+            </select><br>
+            <div id="tarjetaForm" class="hidden">
+                <input type="text" placeholder="Número de tarjeta"><br>
+                <input type="text" placeholder="Nombre en la tarjeta"><br>
+                <input type="text" placeholder="Fecha de vencimiento (MM/AA)"><br>
+                <input type="text" placeholder="CVV"><br>
+            </div>
+            <div id="pseForm" class="hidden">
+                <input type="text" placeholder="Banco"><br>
+                <input type="text" placeholder="Número de cuenta"><br>
+                <input type="text" placeholder="Tipo de cuenta"><br>
+            </div>
+            <button type="button" id="registrarBtn" disabled onclick="enviarDatos()">Registrar</button>
+        </form>
+    </div>
+    <script>
+        const metodoPago = document.getElementById('metodoPago');
+        const tarjetaForm = document.getElementById('tarjetaForm');
+        const pseForm = document.getElementById('pseForm');
+        const registrarBtn = document.getElementById('registrarBtn');
+        const pass = document.getElementById('pass');
+        const confirmPass = document.getElementById('confirmPass');
+
+        metodoPago.addEventListener('change', function() {
+            tarjetaForm.classList.add('hidden');
+            pseForm.classList.add('hidden');
+            if (this.value === 'tarjeta') tarjetaForm.classList.remove('hidden');
+            else if (this.value === 'pse') pseForm.classList.remove('hidden');
+            validarFormulario();
+        });
+
+        confirmPass.addEventListener('input', validarFormulario);
+
+        function validarFormulario() {
+            registrarBtn.disabled = pass.value !== confirmPass.value || metodoPago.value === '';
+        }
+
+        function enviarDatos() {
+            window.location.href = "enviando.html";
+        }
+    </script>
+</body>
+</html>
